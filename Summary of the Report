@@ -1,0 +1,38 @@
+Abstract
+The goal of this report is to increase the accuracy and dependability of these systems in real -world applications by investigating the use of machine learning approaches for the anomaly identification in the GPS trajectory data. Mean Absolute Error (MAE), Root mean squared (RMSE), Means squared error (MSE) are three performance measures used in the study to assess a number of machine learning models which include the Random Forest, Support Vector Machine, Regression Tree and K-Nearest Neighbors. The result underscores the necessity for the context specific model selection, showing that Random Forest performs well in the time prediction while KNN is most successful for the speed prediction. The result facilitates the improvement of GPS based systems anomaly detection capabilities by providing useful suggestions for real-world applications. To further improve anomaly detection skills, future research should concentrate on combining real time data processing and investigating accurate analysis like deep learning.
+Chapter 1. Introduction
+1.1.	Background Research
+The advent of GPS-enabled devices has revolutionized numerous industries by generating vast amounts of trajectory data. Applications such as logistics, urban planning, transportation and environmental monitoring all depend on this data. But there are several difficulties because of the vast level and complexity of this data, especially when trying to spot abnormalities that may be signs of fraud, mistakes or strange occurrences. Most robust solutions are required since traditional statistical approaches frequently fail to analyze this data adequately.
+
+Machine learning techniques offer powerful tools for anomaly detection in GPS trajectory data. These methods are quite good at managing the big datasets and finding intricate patterns that more conventional approaches can miss. The usefulness of many machine learning methods including Random Forest, Support Vector Machine, Regression Trees and K-Nearest Neighbor’s in enhancing the precision and dependability of anomaly identification in GPS data is investigated in this dissertation. This study intends to improve the GPS based application security and dependability by utilizing these cutting-edge strategies, consequently aiding in the creation of more resilient systems.
+
+The main goals of this study are to undertake a thorough literature analysis of current approaches, preprocess and analyses the GPS trajectory data, assess the effectiveness of particular machine learning algorithms choose the best anomaly detection algorithm and offer useful suggestions for implementing these methods in actual settings.Furthermore,by pointing out  areas that require further work in the field of machine learning based anomaly identification in GPS data, this study hopes the advance the fields understanding.
+. Comparison of Models Technique
+The K-Nearest Neighbors (KNN) is the best technique for the speed model which shows the lowest MSE, RMSE and MAE values. Support Vector Machine (SVR) is the second closet model performing better than Random Forest and Regression Tree but not as well KNN. The regression tree performance was the worst among all the techniques.
+
+Speed
+ML Techniques Name	Mean Squared Error	Root Mean Squared Error	Mean Absolute Error
+Regression Tree	75.63447667	8.696808418	6.266333333
+Support Vector Machine (SVR)	42.73904608	6.537510694	4.690395336
+Random Forest (random forest regressor)	50.71	7.12	5.49
+KNN (regressor)	38.32	6.19	4.57
+
+Time
+The KNN and Random Forest are the best top model for the below techniques since random forest has lowest MSE and ties with KNN for the lowest RMSE which makes slightly better in terms of overall error minimization has lowest MAE which is good minimizing the average error but still Random Forest will best model technique because of KNN has a slightly lower in the MAE. Random Forest is the 1st best model technique for time.
+ML Techniques Name	Mean Squared Error	Root Mean Squared Error	Mean Absolute Error
+Regression Tree	0.021293333	0.145922354	0.102666667
+Support Vector Machine (SVR)	0.016219182	0.12735455	0.101909757
+Random Forest (random forest regressor)	0.01	0.11	0.08
+KNN (regressor)	0.0122	0.11	0.06
+
+
+Result of Models Technique
+Summary of the Machine Technique
+•	K-Nearest Neighbors (KNN) in the regression mode is the best technique for predicting speed as it has the lowest MSE(38.32),RMSE(6.19) and MAE(4.57) among the models. This demonstrates that KNN delivers the most accurate prediction for speed. 
+•	Conversely, Random Forest is the best model for predicting the time, with lowest MSE(0.01), MAE(0.08) and RMSE(0.11) among all those models which exceptional temporal prediction accuracy. 
+•	These results imply that Random Forest is superior at the predicting time which include smaller scale values while KNN is more successful at the predicting speed which usually requires larger scale values. As a result, the approach selected should be based on the target variable being projections. 
+These results highlight Random Forest for the prediction of time and KNN for the prediction speed is the top model for the GPS trajectories data followed by other models depend on the specific requirements of the implementation.
+ 
+Conclusion
+The report concludes that the research has successfully evaluated the effectiveness of several machine learning algorithms for detecting anomalies in GPS trajectory data. Specifically, the K-Nearest Neighbors (KNN) model was found to be the most effective for predicting speed, while the Random Forest model was superior for predicting time. These findings indicate that the choice of machine learning model should be tailored to the specific target variable in question. The study emphasizes the importance of selecting the appropriate model for different types of predictions in GPS data, thereby improving the reliability and accuracy of anomaly detection in such data.
+
