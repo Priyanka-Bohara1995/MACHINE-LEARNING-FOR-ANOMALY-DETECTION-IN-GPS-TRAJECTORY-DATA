@@ -1,0 +1,159 @@
+# Load the dataset
+file_path = "C:\\Users\\Priyanka\\Downloads\\gps_track.csv" # Ensure this path is correct for your environment
+gps_track = pd.read_csv(file_path)
+# Display the first few rows
+print(gps_track.head())
+# Summary of the dataset
+data_summary = gps_track.describe()
+print(data_summary)
+# Display the structure of the Dataset
+print(gps_track.info())
+# Remove ID and id_android columns
+gps_track = gps_track.drop(columns=['id', 'id_android'])
+print(gps_track)
+# Check for missing values
+missing_values = gps_track.isnull().sum()
+print("Missing values in each column:\n", missing_values)
+# Visualize the missing heatmap
+plt.figure(figsize=(10, 6))
+sns.heatmap(gps_track.isna(), cbar=False, cmap='gray')
+plt.xlabel('Columns')
+plt.ylabel('Rows')
+plt.title('Missing Data Heatmap')
+plt.show()
+# Drop rows with missing values
+gps_track_clean = gps_track.dropna()
+gps_track_clean.info()
+# Boxplot for all variables
+plt.figure(figsize=(12, 8))
+sns.boxplot(data=gps_track)
+plt.title('Boxplot for all variables')
+plt.xticks(rotation=45)
+plt.show()
+# Define a function to remove outliers based on IQR
+def remove_outliers(df, column):
+ Q1 = df[column].quantile(0.25)
+ Q3 = df[column].quantile(0.75)
+ IQR = Q3 - Q1
+ lower_bound = Q1 - 1.5 * IQR
+ upper_bound = Q3 + 1.5 * IQR
+ df = df[(df[column] >= lower_bound) & (df[column] <= upper_bound)]
+ return df
+# List of columns to remove outliers from
+columns_to_clean = ['speed', 'time', 'distance', 'rating_bus']
+#Apply the function to each column
+for column in columns_to_clean:
+ gps_track = remove_outliers(gps_track, column)
+# Boxplot for Speed
+plt.figure(figsize=(6, 4))
+sns.boxplot(y=gps_track['speed'])
+plt.title('Speed')
+plt.xlabel('Speed')
+plt.ylabel('Value')
+plt.show()
+# Boxplot for Time
+plt.figure(figsize=(6, 4))
+sns.boxplot(y=gps_track['time'])
+plt.title('Time')
+plt.xlabel('Time')
+plt.ylabel('Value')
+plt.show()
+# Histogram for all variables
+numerical_columns = ['speed', 'time', 'distance', 'rating', 'rating_bus', 'rating_weather', 'car_or_bus']
+fig, axes = plt.subplots(nrows=3, ncols=3, figsize=(15, 10))
+fig.suptitle('Histograms of All Variables')
+axes = axes.flatten()
+for i, col in enumerate(numerical_columns):
+ axes[i].hist(gps_track[col].dropna(), bins=20)
+ axes[i].set_title(col)
+# Hide any remaining empty subplots
+for j in range(i + 1, len(axes)):
+ fig.delaxes(axes[j])
+plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+plt.show()
+# Histogram
+plt.figure(figsize=(12, 6))
+plt.subplot(1, 2, 1)
+sns.histplot(gps_track['speed'], kde=True)
+plt.title('Histogram of Speed')
+plt.subplot(1, 2, 2)
+sns.histplot(gps_track['time'], kde=True)
+plt.title('Histogram of Time')
+plt.show()
+# Min-Max Scaling
+scaler = MinMaxScaler()
+gps_track_mm = pd.DataFrame(scaler.fit_transform(gps_track), columns=gps_track.columns)
+# Plotting the Boxplot
+plt.figure(figsize=(10, 6))
+gps_track_mm.boxplot()
+plt.title("Min-Max Scaling")
+plt.show()
+# Define the z-score scaling functions
+def z_score_scaling(column):
+ return (column - column.mean()) / column.std()
+def z_score_scaling_2sd(column):
+ return (column - column.mean()) / (2 * column.std())
+# Apply z-score scaling to each column
+gps_track_z1 = gps_track.apply(z_score_scaling)
+gps_track_z2 = gps_track.apply(z_score_scaling_2sd)
+# Create the boxplots
+plt.figure(figsize=(12, 6))
+# Boxplot for Z-score with 1 standard deviation
+plt.subplot(1, 2, 1)
+gps_track_z1.boxplot()
+plt.title('Z-score, 1 sd')
+plt.ylabel('Z-Score Values')
+plt.xlabel('Columns')
+# Boxplot for Z-score with 2 standard deviations
+plt.subplot(1, 2, 2)
+gps_track_z2.boxplot()
+plt.title('Z-score, 2 sd')
+plt.ylabel('Z-Score Values')
+plt.xlabel('Columns')
+plt.tight_layout()
+plt.show()
+import pandas as pd
+from scipy.stats import spearmanr
+# Calculate Spearman correlation
+spearman_corr, spearman_p_value = spearmanr(gps_track['speed'], gps_track['distance'])
+print(f"Spearman correlation: {spearman_corr}, p-value: {spearman_p_value}")
+spearman_corr, spearman_p_value = spearmanr(gps_track['speed'], gps_track['rating'])
+print(f"Spearman correlation: {spearman_corr}, p-value: {spearman_p_value}")
+spearman_corr, spearman_p_value = spearmanr(gps_track['speed'], gps_track['rating_bus'])
+print(f"Spearman correlation: {spearman_corr}, p-value: {spearman_p_value}")
+spearman_corr, spearman_p_value = spearmanr(gps_track['speed'], gps_track['rating_weather'])
+print(f"Spearman correlation: {spearman_corr}, p-value: {spearman_p_value}")
+spearman_corr, spearman_p_value = spearmanr(gps_track['speed'], gps_track['car_or_bus'])
+print(f"Spearman correlation: {spearman_corr}, p-value: {spearman_p_value}")
+# Calculate Pearson correlation
+pearson_corr = gps_track['speed'].corr(gps_track['distance'], method='pearson')
+print(f"Pearson correlation: {pearson_corr}")
+pearson_corr = gps_track['speed'].corr(gps_track['rating'], method='pearson')
+print(f"Pearson correlation: {pearson_corr}")
+pearson_corr = gps_track['speed'].corr(gps_track['rating_bus'], method='pearson')
+print(f"Pearson correlation: {pearson_corr}")
+pearson_corr = gps_track['speed'].corr(gps_track['rating_weather'], method='pearson')
+print(f"Pearson correlation: {pearson_corr}")
+pearson_corr = gps_track['speed'].corr(gps_track)
+# Calculate the correlation matrix for the reduced dataframe
+correlation_matrix_reduced = gps_track.corr()
+# Display the reduced correlation matrix
+print(correlation_matrix_reduced)
+# Calculate the correlation matrix
+correlation_matrix = gps_track.corr()
+# Plot the correlagram
+plt.figure(figsize=(10, 8))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', linewidths=0.5, fmt='.2f')
+plt.title('Corrplot of GPS Track Data')
+plt.show()
+# Remove the highly correlated variables
+columns_to_drop = ['rating_bus', 'rating_weather']
+gps_track_cor = gps_track.drop(columns=columns_to_drop)
+# Print the resulting DataFrame
+print(gps_track_cor)
+# Check correlation matrix again
+correlation_matrix_updated = gps_track.corr()
+plt.figure(figsize=(12, 8))
+sns.heatmap(correlation_matrix_updated, annot=True, cmap='coolwarm')
+plt.title('Updated Correlation Matrix')
+plt.show()
